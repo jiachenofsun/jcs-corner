@@ -38,11 +38,23 @@ export const TechyBanner = (): JSX.Element => {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       d = ctx.createImageData(w, h),
-      b = new Uint32Array(d.data.buffer),
-      len = b.length
+      b = new Uint32Array(d.data.buffer)
 
-    for (var i = 0; i < len; i++) {
-      b[i] = ((255 * Math.random()) | 0) << 24
+    for (var y = 0; y < h; y += 4) {
+      for (var x = 0; x < w; x += 4) {
+        var pos = y * w + x
+
+        var color = ((255 * Math.random()) | 0) << 24
+
+        for (var subY = 0; subY < 4; subY++) {
+          for (var subX = 0; subX < 4; subX++) {
+            var currentPos = pos + subY * w + subX
+            if (x + subX < w && y + subY < h) {
+              b[currentPos] = color
+            }
+          }
+        }
+      }
     }
 
     ctx.putImageData(d, 0, 0)
@@ -84,7 +96,7 @@ export const TechyBanner = (): JSX.Element => {
       generateSnow(ctx)
       setTimeout(() => {
         requestAnimationFrame(animate)
-      }, 350)
+      }, 2000)
     }
 
     animate()
