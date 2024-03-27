@@ -1,5 +1,5 @@
-import { Box, Switch, Typography } from "@mui/material"
-import { theme } from "../theme"
+import { Switch, Typography } from "@mui/material"
+import { theme } from "@/app/theme"
 
 type FooterProps = {
   darkMode: boolean

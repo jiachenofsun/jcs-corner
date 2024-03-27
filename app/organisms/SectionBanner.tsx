@@ -1,38 +1,83 @@
-import { TranslucentBanner } from "../theme"
-import {Controller, Scene} from 'react-scrollmagic'
-import {Timeline, Tween} from 'react-gsap'
-import {gsap} from "gsap"
-import {RoughEase} from "gsap/EasePack"
-import {TextPlugin} from "gsap/TextPlugin"
-import {BannerButton} from '../molecules/BannerButton'
+import { useRef } from "react"
+import { gsap } from "gsap"
+import { TextPlugin } from "gsap/TextPlugin"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+import { TranslucentBanner, ShakyButton } from "@/app/theme"
+import { Typography } from "@mui/material"
+import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 
-gsap.registerPlugin(TextPlugin, RoughEase)
+gsap.registerPlugin(TextPlugin, ScrollTrigger)
 type SectionBannerProps = {
-    bgUrl: string
-    path: string
-    text: string
-  }
-  
-export const SectionBanner = ({bgUrl, path, text}: SectionBannerProps): JSX.Element => {
-    return (
-      <TranslucentBanner
-        bgUrl={bgUrl}
+  bgurl: string
+  path: string
+  text: string
+}
+
+const SectionBanner = ({ bgurl, path, text }: SectionBannerProps) => {
+  const typoRef = useRef(null)
+  const containerRef = useRef(null)
+  const router = useRouter()
+
+  useGSAP(() => {
+    const typoElement: any = typoRef?.current
+    const containerElement: any = containerRef?.current
+    gsap.to(typoElement, {
+      scrollTrigger: {
+        trigger: containerElement,
+        start: "top center",
+        end: "center center",
+        scrub: true,
+        markers: false
+      },
+      text: text
+    })
+  })
+
+  return (
+    <TranslucentBanner
+      ref={containerRef}
+      bgurl={bgurl}
+      sx={{
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <ShakyButton
+        onClick={() => router.push(path)}
         sx={{
-          alignItems: 'center',
-          justifyContent: 'center',
+          border: "0.25rem solid #f5bc38",
+          borderRadius: 0,
+          px: "25px"
         }}
       >
-        <Controller>
-          <Scene
-            duration={600}
-            triggerHook="onEnter"
+        <Typography
+          ref={typoRef}
+          sx={{
+            fontSize: { xs: "2.2rem !important", md: "4rem !important" },
+            fontWeight: "light",
+            letterSpacing: ".3rem",
+            color: "#f5bc38"
+          }}
+        ></Typography>
+        <motion.span
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "2.2rem !important", md: "4rem !important" },
+              fontWeight: "light",
+              color: "#f5bc38"
+            }}
           >
-            <Timeline target={<BannerButton path={path}/>}>
-              <Tween to={{text}} target="typo"/>
-            </Timeline>
-          </Scene>
-        </Controller>
-      </TranslucentBanner>
-    )
-  }
-  
+            _
+          </Typography>
+        </motion.span>
+      </ShakyButton>
+    </TranslucentBanner>
+  )
+}
+
+export default SectionBanner

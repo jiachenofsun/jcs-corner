@@ -1,43 +1,28 @@
-"use client"
-
 import "./globals.css"
-import { ThemeProvider } from "@mui/material/styles"
-import { theme, darkTheme } from "@/app/theme"
-import { useState, useEffect } from "react"
-import NavMenu from "@/app/organisms/NavMenu"
-import Footer from "@/app/organisms/Footer"
+import type { Metadata } from "next"
+import ThemeContainer from "./ThemeContainer"
+
+export const metadata: Metadata = {
+  title: "jc's corner",
+  description: "Jc Sun's lil corner of the web"
+}
 
 export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [darkMode, setDarkMode] = useState(false)
-
-  useEffect(() => {
-    const darkModeSetting = window.localStorage.getItem("darkMode")
-    if (darkModeSetting) {
-      const isDarkMode = darkModeSetting === "true"
-      setDarkMode(isDarkMode)
-    }
-  }, [])
-
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={darkMode ? darkTheme : theme}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              height: "100vh"
-            }}
-          >
+        <ThemeContainer children={children}></ThemeContainer>
+        {/* <ThemeProvider children={children} theme={darkMode ? darkTheme : theme}>
+          <AppContainer>
             <NavMenu />
             <div style={{ flexGrow: "1" }}>{children}</div>
             <Footer darkMode={darkMode} setDarkMode={setDarkMode} />
-          </div>
-        </ThemeProvider>
+          </AppContainer>
+        </ThemeProvider> */}
       </body>
     </html>
   )

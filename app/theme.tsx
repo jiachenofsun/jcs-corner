@@ -104,13 +104,16 @@ export const AppContainer = styled(Paper)(() => ({
   backgroundImage: "none",
   maxWidth: "none !important",
   margin: "0px",
-  overflowX: "hidden"
+  overflowX: "hidden",
+  display: "flex",
+  flexDirection: "column"
+  // height: "100vh"
 }))
 
 export const PageContainer = styled(Box)(() => ({
   margin: "0",
   padding: "0",
-  minHeight: "96vh"
+  minHeight: "93vh"
 }))
 
 export const MotionBox = motion(Box)
@@ -283,14 +286,14 @@ export const ShakyButton = styled(Button)(() => ({
 }))
 
 interface StyledContainerProps extends ContainerProps {
-  bgUrl: string
+  bgurl: string
 }
 
 export const TranslucentBanner = styled(Container)<StyledContainerProps>(
-  ({ bgUrl }) => ({
+  ({ bgurl }) => ({
     position: "relative",
     display: "flex",
-    minHeight: "96vh",
+    minHeight: "93vh",
     "&::before": {
       content: '""',
       position: "absolute",
@@ -298,7 +301,7 @@ export const TranslucentBanner = styled(Container)<StyledContainerProps>(
       left: 0,
       width: "100%",
       height: "100%",
-      backgroundImage: `url("${bgUrl}")`,
+      backgroundImage: `url("${bgurl}")`,
       backgroundPosition: "center",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
