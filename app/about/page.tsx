@@ -19,7 +19,7 @@ export default function About(): JSX.Element {
         {" "}
         {/* align items to center will vertically align the contents */}
         <Typography variant="body1" sx={{ width: "40%" }}>
-          Hello! I'm a junior in UC Berkeley studying Computer Science and Data
+          Hello! I'm a senior in UC Berkeley studying Computer Science and Data
           Science. Looking through my lil corner of the web will probably give
           you some idea of the things I'm passionate about!
         </Typography>
